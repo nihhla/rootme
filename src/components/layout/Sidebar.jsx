@@ -15,6 +15,10 @@ const Sidebar = () => {
       path: '/reading'
     },
     {
+      name: 'Progress',
+      path: '/gamification'
+    },
+    {
       name: 'Challenges',
       path: '/challenges'
     },

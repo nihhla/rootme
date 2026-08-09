@@ -14,6 +14,11 @@ import Books from './pages/student/Books';
 import BookDetails from './pages/student/BookDetails';
 import Reading from './pages/student/Reading';
 import Quiz from './pages/student/Quiz';
+import Gamification from './pages/student/Gamification';
+import Badges from './pages/student/Badges';
+import Challenges from './pages/student/Challenges';
+import Reviews from './pages/student/Reviews';
+import Analytics from './pages/student/Analytics';
 
 import ProtectedRoute from './routes/ProtectedRoute';
 
@@ -78,6 +83,46 @@ const App = () => {
           element={
             <ProtectedRoute>
               <Quiz />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/gamification"
+          element={
+            <ProtectedRoute>
+              <Gamification />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/badges"
+          element={
+            <ProtectedRoute>
+              <Badges />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/challenges"
+          element={
+            <ProtectedRoute>
+              <Challenges />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/reviews"
+          element={
+            <ProtectedRoute>
+              <Reviews />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/analytics"
+          element={
+            <ProtectedRoute>
+              <Analytics />
             </ProtectedRoute>
           }
         />
