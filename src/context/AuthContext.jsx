@@ -19,70 +19,58 @@ import {
   clearStorage
 } from '../utils/storage';
 
-export const AuthContext =
-  createContext(null);
+export const AuthContext = createContext(null);
 
-export const AuthProvider = ({
-  children
-}) => {
-  const [user, setUserState] =
-    useState(() => getUser());
+export const AuthProvider = ({ children }) => {
+  const [user, setUserState] = useState(() => getUser());
+  const [loading, setLoading] = useState(true);
 
-  const [loading, setLoading] =
-    useState(true);
-
-  const isAuthenticated =
-    Boolean(getToken());
+  const isAuthenticated = Boolean(getToken());
 
   useEffect(() => {
-    const initializeAuth =
-      async () => {
-        const token = getToken();
+    const initializeAuth = async () => {
+      const token = getToken();
 
-        if (!token) {
-          setLoading(false);
-          return;
+      if (!token) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const response = await getCurrentUser();
+
+        const currentUser =
+          response?.data?.user ||
+          response?.user;
+
+        if (currentUser) {
+          setUserState(currentUser);
+          setUser(currentUser);
         }
-
-        try {
-          const response =
-            await getCurrentUser();
-
-          const currentUser =
-            response?.data?.user ||
-            response?.user;
-
-          if (currentUser) {
-            setUserState(
-              currentUser
-            );
-
-            setUser(
-              currentUser
-            );
-          }
-        } catch {
-          clearStorage();
-          setUserState(null);
-        } finally {
-          setLoading(false);
-        }
-      };
+      } catch {
+        clearStorage();
+        setUserState(null);
+      } finally {
+        setLoading(false);
+      }
+    };
 
     initializeAuth();
   }, []);
 
   const login = async (data) => {
-    const response =
-      await loginService(data);
+    const response = await loginService(data);
 
-    const token =
-      response?.data?.token ||
-      response?.token;
+    const responseData =
+      response?.data?.data ||
+      response?.data ||
+      response;
 
-    const loggedUser =
-      response?.data?.user ||
-      response?.user;
+    const token = responseData?.token;
+    const loggedUser = responseData?.user;
+
+    console.log('LOGIN RESPONSE:', response);
+    console.log('LOGGED USER:', loggedUser);
 
     if (!token) {
       throw new Error(
@@ -90,19 +78,24 @@ export const AuthProvider = ({
       );
     }
 
-    setToken(token);
-
-    if (loggedUser) {
-      setUser(loggedUser);
-      setUserState(loggedUser);
+    if (!loggedUser) {
+      throw new Error(
+        'User information not received'
+      );
     }
 
-    return response;
+    setToken(token);
+    setUser(loggedUser);
+    setUserState(loggedUser);
+
+    return {
+      token,
+      user: loggedUser
+    };
   };
 
   const register = async (data) => {
-    const response =
-      await registerService(data);
+    const response = await registerService(data);
 
     const token =
       response?.data?.token ||
@@ -117,13 +110,8 @@ export const AuthProvider = ({
     }
 
     if (registeredUser) {
-      setUser(
-        registeredUser
-      );
-
-      setUserState(
-        registeredUser
-      );
+      setUser(registeredUser);
+      setUserState(registeredUser);
     }
 
     return response;

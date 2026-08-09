@@ -1,14 +1,14 @@
 import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate
+    BrowserRouter,
+    Routes,
+    Route
 } from 'react-router-dom';
 
-import './App.css'
+import './App.css';
 
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
+
 import Dashboard from './pages/student/Dashboard';
 import Books from './pages/student/Books';
 import BookDetails from './pages/student/BookDetails';
@@ -20,115 +20,154 @@ import Challenges from './pages/student/Challenges';
 import Reviews from './pages/student/Reviews';
 import Analytics from './pages/student/Analytics';
 
-import ProtectedRoute from './routes/ProtectedRoute';
+import StudentRoute from './routes/StudentRoutes';
+
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminRoute from './pages/auth/AdminRoute';
+
+import AdminBooks from './pages/admin/AdminBooks';
+import AdminStudents from './pages/admin/AdminStudents';
+
+import RoleRedirect from './pages/auth/RoleRedirect';
 
 const App = () => {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Navigate
-              to="/dashboard"
-              replace
-            />
-          }
-        />
+    return (
+        <BrowserRouter>
+            <Routes>
 
-        <Route
-          path="/login"
-          element={<Login />}
-        />
+                <Route
+                    path="/"
+                    element={<RoleRedirect />}
+                />
 
-        <Route
-          path="/register"
-          element={<Register />}
-        />
+                <Route
+                    path="/login"
+                    element={<Login />}
+                />
 
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/books"
-          element={
-            <ProtectedRoute>
-              <Books />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/books/:id"
-          element={
-            <ProtectedRoute>
-              <BookDetails />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/reading/:id"
-          element={
-            <ProtectedRoute>
-              <Reading />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/reading/:id/quiz"
-          element={
-            <ProtectedRoute>
-              <Quiz />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/gamification"
-          element={
-            <ProtectedRoute>
-              <Gamification />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/badges"
-          element={
-            <ProtectedRoute>
-              <Badges />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/challenges"
-          element={
-            <ProtectedRoute>
-              <Challenges />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/reviews"
-          element={
-            <ProtectedRoute>
-              <Reviews />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/analytics"
-          element={
-            <ProtectedRoute>
-              <Analytics />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
-    </BrowserRouter>
-  );
+                <Route
+                    path="/register"
+                    element={<Register />}
+                />
+
+                <Route
+                    path="/dashboard"
+                    element={
+                        <StudentRoute>
+                            <Dashboard />
+                        </StudentRoute>
+                    }
+                />
+
+                <Route
+                    path="/books"
+                    element={
+                        <StudentRoute>
+                            <Books />
+                        </StudentRoute>
+                    }
+                />
+
+                <Route
+                    path="/books/:id"
+                    element={
+                        <StudentRoute>
+                            <BookDetails />
+                        </StudentRoute>
+                    }
+                />
+
+                <Route
+                    path="/reading/:id"
+                    element={
+                        <StudentRoute>
+                            <Reading />
+                        </StudentRoute>
+                    }
+                />
+
+                <Route
+                    path="/reading/:id/quiz"
+                    element={
+                        <StudentRoute>
+                            <Quiz />
+                        </StudentRoute>
+                    }
+                />
+
+                <Route
+                    path="/gamification"
+                    element={
+                        <StudentRoute>
+                            <Gamification />
+                        </StudentRoute>
+                    }
+                />
+
+                <Route
+                    path="/badges"
+                    element={
+                        <StudentRoute>
+                            <Badges />
+                        </StudentRoute>
+                    }
+                />
+
+                <Route
+                    path="/challenges"
+                    element={
+                        <StudentRoute>
+                            <Challenges />
+                        </StudentRoute>
+                    }
+                />
+
+                <Route
+                    path="/reviews"
+                    element={
+                        <StudentRoute>
+                            <Reviews />
+                        </StudentRoute>
+                    }
+                />
+
+                <Route
+                    path="/analytics"
+                    element={
+                        <StudentRoute>
+                            <Analytics />
+                        </StudentRoute>
+                    }
+                />
+
+                <Route
+                    path="/admin/dashboard"
+                    element={
+                        <AdminRoute>
+                            <AdminDashboard />
+                        </AdminRoute>
+                    }
+                />
+                <Route
+                    path="/admin/books"
+                    element={
+                        <AdminRoute>
+                            <AdminBooks />
+                        </AdminRoute>
+                    }
+                />
+                <Route
+                    path="/admin/students"
+                    element={
+                        <AdminRoute>
+                            <AdminStudents />
+                        </AdminRoute>
+                    }
+                />
+
+            </Routes>
+        </BrowserRouter>
+    );
 };
 
 export default App;

@@ -30,3 +30,22 @@ export const logout = () => {
   localStorage.removeItem('readquest_token');
   localStorage.removeItem('readquest_user');
 };
+
+export const getStudents = async (params = {}) => {
+    const response = await api.get(
+        '/auth/students',
+        {
+            params
+        }
+    );
+
+    return response.data;
+};
+
+export const deleteStudent = async (studentId) => {
+    const response = await api.delete(
+        `/auth/students/${studentId}`
+    );
+
+    return response.data;
+};
