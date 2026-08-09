@@ -1,23 +1,53 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate
+} from 'react-router-dom';
+
 import './App.css'
 
-function App() {
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
+import Dashboard from './pages/student/Dashboard';
+
+import ProtectedRoute from './routes/ProtectedRoute';
+
+const App = () => {
   return (
-    <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-5xl font-bold">
-          ReadQuest
-        </h1>
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Navigate
+              to="/dashboard"
+              replace
+            />
+          }
+        />
 
-        <p className="mt-4 text-slate-400">
-          Gamified Reading Platform
-        </p>
-      </div>
-    </div>
-  )
-}
+        <Route
+          path="/login"
+          element={<Login />}
+        />
 
-export default App
+        <Route
+          path="/register"
+          element={<Register />}
+        />
+
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
+  );
+};
+
+export default App;
